@@ -27,27 +27,26 @@ Hooks.once("init", () => {
   });
 
   // ── Register Actor sheets ───────────────────────────────────────────────
-  // In V13 we use DocumentSheetConfig directly for AppV2 sheets.
-  // Unregister core sheets for our types, then register our own.
-  DocumentSheetConfig.unregisterSheet(Actor, "core", foundry.appv1.sheets.ActorSheet, {
+  const DSC = foundry.applications.apps.DocumentSheetConfig;
+  DSC.unregisterSheet(Actor, "core", foundry.appv1.sheets.ActorSheet, {
     types: ["unit", "tacom"]
   });
-  DocumentSheetConfig.registerSheet(Actor, "firelock198x", FirelockUnitSheet, {
+  DSC.registerSheet(Actor, "firelock198x", FirelockUnitSheet, {
     types: ["unit", "tacom"],
     makeDefault: true,
     label: "Firelock 198X Unit Sheet"
   });
 
   // ── Register Item sheets ────────────────────────────────────────────────
-  DocumentSheetConfig.unregisterSheet(Item, "core", foundry.appv1.sheets.ItemSheet, {
+  DSC.unregisterSheet(Item, "core", foundry.appv1.sheets.ItemSheet, {
     types: ["weapon", "special-rule"]
   });
-  DocumentSheetConfig.registerSheet(Item, "firelock198x", FirelockWeaponSheet, {
+  DSC.registerSheet(Item, "firelock198x", FirelockWeaponSheet, {
     types: ["weapon"],
     makeDefault: true,
     label: "Firelock 198X Weapon Sheet"
   });
-  DocumentSheetConfig.registerSheet(Item, "firelock198x", FirelockSpecialRuleSheet, {
+  DSC.registerSheet(Item, "firelock198x", FirelockSpecialRuleSheet, {
     types: ["special-rule"],
     makeDefault: true,
     label: "Firelock 198X Special Rule Sheet"
@@ -89,7 +88,7 @@ Hooks.once("init", () => {
 
 // ─── Chat Message Hooks ───────────────────────────────────────────────────────
 // Clicking "Roll Upkeep Pin" button in chat (if we render one)
-Hooks.on("renderChatMessage", (message, html) => {
+Hooks.on("renderChatMessageHTML", (message, html) => {
   // Future: add interactable buttons in chat cards
 });
 

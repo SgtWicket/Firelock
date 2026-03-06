@@ -55,7 +55,7 @@
   {{!-- ═══ TABS ════════════════════════════════════════════════════════════ --}}
   <nav class="fl-tabs">
     {{#each tabs}}
-      <a class="fl-tab {{this.cssClass}}" data-tab="{{this.id}}" data-group="primary">
+      <a class="fl-tab {{this.cssClass}}" data-action="switchTab" data-tab="{{this.id}}">
         <i class="{{this.icon}}"></i> {{this.label}}
       </a>
     {{/each}}

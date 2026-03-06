@@ -13,6 +13,10 @@ export class FirelockWeaponSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     classes: ["firelock198x", "sheet", "item", "weapon"],
     position: { width: 560, height: 520 },
     window: { resizable: true },
+    form: {
+      submitOnChange: true,
+      closeOnSubmit: false
+    },
     actions: {
       addShotType:    FirelockWeaponSheet.#onAddShotType,
       deleteShotType: FirelockWeaponSheet.#onDeleteShotType
@@ -72,7 +76,11 @@ export class FirelockSpecialRuleSheet extends HandlebarsApplicationMixin(ItemShe
   static DEFAULT_OPTIONS = {
     classes: ["firelock198x", "sheet", "item", "special-rule"],
     position: { width: 480, height: 380 },
-    window: { resizable: true }
+    window: { resizable: true },
+    form: {
+      submitOnChange: true,
+      closeOnSubmit: false
+    }
   };
 
   static PARTS = {

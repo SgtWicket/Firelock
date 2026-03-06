@@ -17,7 +17,13 @@ export class FirelockUnitSheet extends HandlebarsApplicationMixin(ActorSheetV2) 
     classes: ["firelock198x", "sheet", "actor", "unit"],
     position: { width: 680, height: 620 },
     window: { resizable: true },
+    form: {
+      submitOnChange: true,
+      closeOnSubmit: false
+    },
     actions: {
+      // Tab switching
+      switchTab:    FirelockUnitSheet.#onSwitchTab,
       // Weapon actions
       rollAttack:   FirelockUnitSheet.#onRollAttack,
       editWeapon:   FirelockUnitSheet.#onEditWeapon,
@@ -133,6 +139,13 @@ export class FirelockUnitSheet extends HandlebarsApplicationMixin(ActorSheetV2) 
   }
 
   // ── Action Handlers (static, bound via DEFAULT_OPTIONS.actions) ────────────
+
+  static #onSwitchTab(event, target) {
+    const tab = target.dataset.tab;
+    if (!tab) return;
+    this.tabGroups.primary = tab;
+    this.render();
+  }
 
   static async #onRollAttack(event, target) {
     const weaponId = target.dataset.weaponId;
