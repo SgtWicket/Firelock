@@ -1,0 +1,50 @@
+{{!-- Unit sheet header: name, type, points --}}
+<div class="fl-sheet-header">
+  <img class="fl-unit-img" src="{{actor.img}}" alt="{{actor.name}}" data-edit="img">
+  <div class="fl-unit-identity">
+    <input class="fl-unit-name" type="text" name="name" value="{{actor.name}}" placeholder="Unit Name">
+    <div class="fl-unit-meta">
+      <span class="fl-unit-class">{{unitClassLabel}}</span>
+      {{#if system.role}}<span class="fl-unit-role">— {{system.role}}</span>{{/if}}
+      <span class="fl-unit-points">{{system.points}} pts</span>
+    </div>
+    <div class="fl-unit-status-bar">
+      {{#if system.identified}}
+        <span class="fl-status-badge fl-identified">Identified</span>
+      {{else}}
+        <span class="fl-status-badge fl-blind">Blind</span>
+      {{/if}}
+      {{#if system.stationaryFireToken}}
+        <span class="fl-status-badge fl-stationary">Stationary Fire</span>
+      {{/if}}
+      {{#if system.depleted}}
+        <span class="fl-status-badge fl-depleted">Depleted</span>
+      {{/if}}
+      {{#if system.airborne}}
+        <span class="fl-status-badge fl-airborne">Airborne</span>
+      {{/if}}
+      {{#if system.goneToGround}}
+        <span class="fl-status-badge fl-gtg">Gone to Ground</span>
+      {{/if}}
+    </div>
+  </div>
+  {{!-- PIN TRACKER --}}
+  <div class="fl-pin-tracker">
+    <label class="fl-pin-label">PIN</label>
+    <div class="fl-pin-pips">
+      {{#each pinArray}}
+        <div class="fl-pin-pip {{#if this.filled}}fl-pip-filled{{else}}fl-pip-empty{{/if}}"
+             data-index="{{this.index}}"></div>
+      {{/each}}
+    </div>
+    <div class="fl-pin-controls">
+      <button type="button" data-action="removePin" title="Remove 1 Pin">−</button>
+      <span class="fl-pin-value">{{system.pin}}/6</span>
+      <button type="button" data-action="addPin" title="Add 1 Pin">+</button>
+    </div>
+    <button type="button" data-action="clearPin" class="fl-pin-clear" title="Clear all pin">Clear</button>
+    <button type="button" data-action="upkeepRemovePin" class="fl-upkeep-btn" title="Remove Quality pin (Upkeep)">
+      Upkeep (−{{system.quality}})
+    </button>
+  </div>
+</div>

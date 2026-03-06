@@ -1,0 +1,8 @@
+{{!-- Tab navigation --}}
+<nav class="fl-tabs" data-group="primary">
+  {{#each tabs.primary.tabs}}
+    <a class="fl-tab {{#if this.active}}active{{/if}}" data-tab="{{this.id}}" data-group="primary">
+      <i class="{{this.icon}}"></i> {{this.label}}
+    </a>
+  {{/each}}
+</nav>

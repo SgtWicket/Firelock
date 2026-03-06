@@ -1,0 +1,70 @@
+{{!-- Weapons Tab --}}
+<div class="fl-tab-content" data-tab="weapons" data-group="primary">
+  {{#if weapons.length}}
+    {{#each weapons}}
+    <div class="fl-weapon-card {{#if this.isOutOfAmmo}}fl-weapon-spent{{/if}}">
+      <div class="fl-weapon-header">
+        <span class="fl-weapon-name">{{this.name}}</span>
+        {{#if this.system.mountNote}}
+          <span class="fl-weapon-mount">{{this.system.mountNote}}</span>
+        {{/if}}
+        <div class="fl-weapon-actions">
+          <button type="button" class="fl-btn-roll" data-action="rollAttack" data-weapon-id="{{this.id}}"
+                  title="Roll Attack" {{#if this.isOutOfAmmo}}disabled{{/if}}>
+            <i class="fa-solid fa-dice-d6"></i> Attack
+          </button>
+          <button type="button" class="fl-btn-edit" data-action="editWeapon" data-weapon-id="{{this.id}}" title="Edit">
+            <i class="fa-solid fa-pencil"></i>
+          </button>
+          <button type="button" class="fl-btn-delete" data-action="deleteWeapon" data-weapon-id="{{this.id}}" title="Delete">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="fl-weapon-statline">
+        <span class="fl-wstat" title="Target">{{this.targetLabel}}</span>
+        <span class="fl-wstat" title="Range">R{{this.system.range}}"</span>
+        <span class="fl-wstat" title="Accuracy">A{{this.accuracyLabel}}</span>
+        <span class="fl-wstat" title="Strength">S{{this.strengthLabel}}</span>
+        <span class="fl-wstat" title="Dice">D{{this.system.dice}}</span>
+        {{#if this.hasAmmo}}
+          <span class="fl-wstat fl-ammo {{#if this.isOutOfAmmo}}fl-ammo-empty{{/if}}"
+                title="Ammo">
+            Ammo {{this.system.ammoRemaining}}/{{this.system.ammoMax}}
+          </span>
+          <button type="button" data-action="spendAmmo" data-weapon-id="{{this.id}}"
+                  class="fl-ammo-btn" title="Spend 1 Ammo">−</button>
+          <button type="button" data-action="reloadAmmo" data-weapon-id="{{this.id}}"
+                  class="fl-ammo-btn" title="Reload">↺</button>
+        {{/if}}
+      </div>
+
+      {{!-- Shot types --}}
+      {{#if this.hasShotTypes}}
+        <div class="fl-shot-types">
+          {{#each this.system.shotTypes}}
+            <div class="fl-shot-type">
+              <span class="fl-shot-name">→ {{this.name}}</span>
+              {{#if this.target}}<span class="fl-shot-stat">{{this.target}}</span>{{/if}}
+              <span class="fl-shot-stat">S{{this.strengthNormal}}/{{this.strengthHalf}}</span>
+              {{#if this.specialRules.length}}
+                <span class="fl-shot-rules">{{join this.specialRules ", "}}</span>
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
+      {{/if}}
+
+      {{!-- Weapon special rules summary --}}
+      {{#if this.system.specialRules.length}}
+        <div class="fl-weapon-rules">
+          {{join this.system.specialRules ", "}}
+        </div>
+      {{/if}}
+    </div>
+    {{/each}}
+  {{else}}
+    <p class="fl-empty">No weapons. Drag weapon Items here, or create one from the Items sidebar.</p>
+  {{/if}}
+</div>

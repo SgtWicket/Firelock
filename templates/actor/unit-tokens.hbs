@@ -1,0 +1,75 @@
+{{!-- Status Tab --}}
+<div class="fl-tab-content" data-tab="tokens" data-group="primary">
+  <div class="fl-token-grid">
+
+    <div class="fl-token-section">
+      <h3>Combat Status</h3>
+
+      <div class="fl-toggle-row">
+        <label>Identified</label>
+        <button type="button" data-action="toggleIdentified"
+                class="fl-toggle-btn {{#if system.identified}}fl-toggle-on{{else}}fl-toggle-off{{/if}}">
+          {{#if system.identified}}✓ Identified{{else}}✗ Blind{{/if}}
+        </button>
+      </div>
+
+      <div class="fl-toggle-row">
+        <label>Stationary Fire Token</label>
+        <button type="button" data-action="toggleStationary"
+                class="fl-toggle-btn {{#if system.stationaryFireToken}}fl-toggle-on{{else}}fl-toggle-off{{/if}}">
+          {{#if system.stationaryFireToken}}✓ Stationary{{else}}✗ None{{/if}}
+        </button>
+      </div>
+
+      {{#if isSquad}}
+      <div class="fl-toggle-row">
+        <label>Squad Depletion</label>
+        <button type="button" data-action="toggleDepleted"
+                class="fl-toggle-btn {{#if system.depleted}}fl-toggle-warn{{else}}fl-toggle-off{{/if}}">
+          {{#if system.depleted}}⚠ Depleted (Team){{else}}Full Strength{{/if}}
+        </button>
+      </div>
+      {{/if}}
+
+      {{#if isInfantry}}
+      <div class="fl-toggle-row">
+        <label>Gone to Ground</label>
+        <button type="button" data-action="toggleGoneToGround"
+                class="fl-toggle-btn {{#if system.goneToGround}}fl-toggle-on{{else}}fl-toggle-off{{/if}}">
+          {{#if system.goneToGround}}✓ Gone to Ground{{else}}Standing{{/if}}
+        </button>
+        <span class="fl-note">−1 Cover Modifier while active</span>
+      </div>
+      {{/if}}
+
+      {{#if isHelicopter}}
+      <div class="fl-toggle-row">
+        <label>Airborne / Landed</label>
+        <button type="button" data-action="toggleAirborne"
+                class="fl-toggle-btn {{#if system.airborne}}fl-toggle-on{{else}}fl-toggle-off{{/if}}">
+          {{#if system.airborne}}✈ Airborne{{else}}⬇ Landed{{/if}}
+        </button>
+      </div>
+      {{/if}}
+    </div>
+
+    {{!-- Quick Reference --}}
+    <div class="fl-token-section">
+      <h3>Quick Reference</h3>
+      <table class="fl-ref-table">
+        <tr><th>Pin</th><th>Effect</th></tr>
+        {{#if isInfantry}}
+        <tr><td>1+</td><td>−1" Move per pin token</td></tr>
+        {{/if}}
+        <tr><td>2</td><td>−1 Accuracy to all weapons</td></tr>
+        <tr><td>4</td><td>−2 Accuracy to all weapons</td></tr>
+        <tr><td>6</td><td>Max Pin: no shared spotting</td></tr>
+      </table>
+      <div class="fl-ref-note">Current Accuracy Penalty: <strong>−{{pinAccuracyPenalty}}</strong></div>
+      {{#if isInfantry}}
+      <div class="fl-ref-note">Effective Move: <strong>{{effectiveMove}}"</strong></div>
+      {{/if}}
+    </div>
+
+  </div>
+</div>

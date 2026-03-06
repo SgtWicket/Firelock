@@ -1,0 +1,109 @@
+{{!-- Stats Tab --}}
+<div class="fl-tab-content" data-tab="stats" data-group="primary">
+
+  <div class="fl-statline">
+    {{!-- Unit Class (editable) --}}
+    <div class="fl-stat-group">
+      <label class="fl-stat-label">Class</label>
+      <select name="system.unitClass">
+        {{selectOptions unitClasses selected=system.unitClass}}
+      </select>
+    </div>
+
+    {{!-- Core Stats --}}
+    <div class="fl-stat-row">
+      <div class="fl-stat">
+        <label>H</label>
+        <input type="number" name="system.height" value="{{system.height}}" min="0" max="6">
+      </div>
+      <div class="fl-stat">
+        <label>S</label>
+        <input type="number" name="system.spottingDistance" value="{{system.spottingDistance}}" min="0">
+        <span class="fl-stat-unit">"</span>
+      </div>
+      <div class="fl-stat">
+        <label>M</label>
+        <input type="number" name="system.move" value="{{system.move}}" min="0">
+        <span class="fl-stat-unit">"</span>
+        {{#if (gt system.pin 0)}}
+          <span class="fl-stat-effective">({{effectiveMove}}")</span>
+        {{/if}}
+      </div>
+      <div class="fl-stat">
+        <label>Q</label>
+        <input type="number" name="system.quality" value="{{system.quality}}" min="1" max="6">
+      </div>
+    </div>
+
+    {{!-- Toughness --}}
+    <div class="fl-stat-group fl-toughness">
+      <label class="fl-stat-label">T</label>
+      {{#if isPlane}}
+        <input type="number" name="system.toughness.front" value="{{system.toughness.front}}" min="1">
+        <span class="fl-toughness-note">(all arcs)</span>
+      {{else}}
+        <div class="fl-toughness-row">
+          <span class="fl-arc-label">Frt</span>
+          <input type="number" name="system.toughness.front" value="{{system.toughness.front}}" min="1">
+          <span class="fl-arc-label">Sid</span>
+          <input type="number" name="system.toughness.side"  value="{{system.toughness.side}}"  min="1">
+          <span class="fl-arc-label">Rr</span>
+          <input type="number" name="system.toughness.rear"  value="{{system.toughness.rear}}"  min="1">
+        </div>
+      {{/if}}
+    </div>
+
+    {{!-- Evasion (aircraft only) --}}
+    {{#if isAircraft}}
+    <div class="fl-stat-group">
+      <label class="fl-stat-label">E</label>
+      <input type="number" name="system.evasion" value="{{system.evasion}}" min="0" max="6">
+    </div>
+    {{/if}}
+
+    {{!-- TACOM: Command --}}
+    {{#if isTacom}}
+    <div class="fl-stat-group fl-command">
+      <label class="fl-stat-label">C</label>
+      <input type="number" name="system.command" value="{{system.command}}" min="1" max="10">
+      <span class="fl-stat-note">Brigade ({{system.brigadeUnits}}, {{system.brigadeRadius}}")</span>
+    </div>
+    {{/if}}
+  </div>
+
+  {{!-- Pin accuracy penalty notice --}}
+  {{#if (gt system.pin 1)}}
+    <div class="fl-pin-notice">
+      ⚠ Pin Accuracy Penalty: −{{pinAccuracyPenalty}} to all weapon accuracy
+    </div>
+  {{/if}}
+
+  {{!-- Points & Role --}}
+  <div class="fl-identity-fields">
+    <div class="fl-field">
+      <label>Role / Subtype</label>
+      <input type="text" name="system.role" value="{{system.role}}" placeholder="e.g. MAIN BATTLE TANK">
+    </div>
+    <div class="fl-field fl-field-narrow">
+      <label>Points</label>
+      <input type="number" name="system.points" value="{{system.points}}" min="0">
+    </div>
+  </div>
+
+  {{!-- Special Rules --}}
+  <div class="fl-special-rules">
+    <h3>Special Rules</h3>
+    {{#if specialRules.length}}
+      <ul class="fl-rules-list">
+        {{#each specialRules}}
+          <li class="fl-rule-item">
+            <strong>{{this.name}}</strong>
+            {{#if this.system.param1}}({{this.system.param1}}{{#if this.system.param2}}, {{this.system.param2}}{{/if}}){{/if}}
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p class="fl-empty">No special rules. Drag rules from Items sidebar.</p>
+    {{/if}}
+  </div>
+</div>

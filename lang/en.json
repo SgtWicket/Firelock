@@ -1,0 +1,97 @@
+{
+  "FIRELOCK198X": {
+    "ActorTypes": {
+      "unit": "Unit",
+      "tacom": "TACOM"
+    },
+    "ItemTypes": {
+      "weapon": "Weapon",
+      "special-rule": "Special Rule"
+    },
+    "Unit": {
+      "Class": "Unit Class",
+      "Classes": {
+        "inf": "Infantry (Team)",
+        "inf-squad": "Infantry (Squad)",
+        "vec": "Vehicle (Tracked)",
+        "vec-wheeled": "Vehicle (Wheeled)",
+        "vec-carriage": "Vehicle (Carriage)",
+        "air": "Helicopter",
+        "air-cap": "Plane (CAP)",
+        "air-cas": "Plane (CAS)"
+      },
+      "Height": "Height",
+      "SpottingDistance": "Spotting Distance",
+      "Move": "Move",
+      "Quality": "Quality",
+      "Toughness": "Toughness",
+      "ToughnessFront": "Front",
+      "ToughnessSide": "Side",
+      "ToughnessRear": "Rear",
+      "Command": "Command",
+      "Evasion": "Evasion",
+      "Pin": "Pin",
+      "Depleted": "Depleted",
+      "Airborne": "Airborne",
+      "GoneToGround": "Gone to Ground",
+      "Identified": "Identified",
+      "SpecialRules": "Special Rules",
+      "Weapons": "Weapons",
+      "Points": "Points"
+    },
+    "Weapon": {
+      "Target": "Target",
+      "Range": "Range",
+      "AccuracyStationary": "Accuracy (Stationary)",
+      "AccuracyMoving": "Accuracy (Moving)",
+      "StrengthNormal": "Strength (Full)",
+      "StrengthHalf": "Strength (Half Range)",
+      "Dice": "Dice",
+      "Ammo": "Ammo",
+      "AmmoRemaining": "Ammo Remaining",
+      "ShotTypes": "Shot Types",
+      "SpecialRules": "Special Rules",
+      "Targets": {
+        "all": "All",
+        "inf": "Infantry",
+        "vec": "Vehicles",
+        "air": "Aircraft",
+        "inf-vec": "Inf/Vec",
+        "gnd": "Ground"
+      }
+    },
+    "Roll": {
+      "ToHit": "Roll to Hit",
+      "ToKill": "Roll to Kill",
+      "Hit": "HIT",
+      "Miss": "MISS",
+      "Kill": "KILL",
+      "Survive": "SURVIVES",
+      "Pin": "Pin",
+      "PinApplied": "pin token(s) applied",
+      "Overkill": "OVERKILL — Immediate kill, no depletion!",
+      "AutoHit": "Auto-hit (A++)",
+      "AutoKill": "Double kill (++)",
+      "CoverModifier": "Cover Modifier",
+      "HalfRangeBonus": "Half Range +1",
+      "BlindFire": "Blind Fire (6+)",
+      "MovingAccuracy": "Moving Accuracy",
+      "StationaryAccuracy": "Stationary Accuracy"
+    },
+    "Phase": {
+      "Support": "I. Support Phase",
+      "Fire": "II. Fire Phase",
+      "Maneuver": "III. Maneuver Phase",
+      "Identification": "IV. Identification Phase",
+      "CloseCombat": "V. Close Combat Phase",
+      "Objective": "VI. Objective Phase"
+    },
+    "Errors": {
+      "NoWeapon": "No weapon selected.",
+      "NoTarget": "No target token selected.",
+      "OutOfAmmo": "Out of ammo!",
+      "OutOfRange": "Target is out of range.",
+      "NoLOS": "No line of sight to target."
+    }
+  }
+}

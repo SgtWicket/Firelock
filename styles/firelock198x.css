@@ -1,0 +1,374 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Firelock 198X — System Stylesheet
+   Cold War military aesthetic: olive drab, khaki, stencil fonts
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --fl-bg:          #2a2a1e;
+  --fl-bg-panel:    #33331f;
+  --fl-bg-card:     #1e1e14;
+  --fl-border:      #5a5a3a;
+  --fl-border-light:#8a8a5a;
+  --fl-text:        #d4d0b0;
+  --fl-text-dim:    #8a8870;
+  --fl-accent:      #c8a43a;       /* brass / gold */
+  --fl-red:         #c03030;
+  --fl-green:       #4a8a3a;
+  --fl-blue:        #3a6a9a;
+  --fl-orange:      #c86020;
+  --fl-pin-full:    #c03030;
+  --fl-pin-empty:   #3a3a24;
+  --fl-radius:      2px;
+  --fl-font:        "Courier New", "Lucida Console", monospace;
+}
+
+/* ── Sheet Frame ────────────────────────────────────────────────────────── */
+.firelock198x.sheet {
+  background: var(--fl-bg);
+  color: var(--fl-text);
+  font-family: var(--fl-font);
+  font-size: 12px;
+}
+
+.firelock198x.sheet .window-content {
+  background: var(--fl-bg);
+  padding: 0;
+  overflow-y: auto;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.fl-sheet-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--fl-bg-panel);
+  border-bottom: 2px solid var(--fl-border);
+}
+
+.fl-unit-img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border: 2px solid var(--fl-border);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.fl-unit-identity { flex: 1; }
+
+.fl-unit-name {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--fl-border);
+  color: var(--fl-accent);
+  font-family: var(--fl-font);
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 2px 0;
+}
+
+.fl-unit-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--fl-text-dim);
+}
+.fl-unit-class { color: var(--fl-text); font-weight: bold; }
+.fl-unit-points { color: var(--fl-accent); margin-left: auto; }
+
+/* Status badges */
+.fl-unit-status-bar { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.fl-status-badge {
+  padding: 1px 5px;
+  border-radius: var(--fl-radius);
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.fl-identified  { background: #2a5a2a; color: #80d080; border: 1px solid #4a8a4a; }
+.fl-blind       { background: #5a4a1a; color: #d0b040; border: 1px solid #8a7030; }
+.fl-stationary  { background: #5a2a2a; color: #d08080; border: 1px solid #8a4040; }
+.fl-depleted    { background: #5a3a1a; color: #d09040; border: 1px solid #8a6020; }
+.fl-airborne    { background: #1a3a5a; color: #80a0d0; border: 1px solid #2a5a8a; }
+.fl-gtg         { background: #2a4a2a; color: #80a060; border: 1px solid #3a7a3a; }
+
+/* PIN Tracker */
+.fl-pin-tracker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 90px;
+}
+.fl-pin-label { font-size: 10px; color: var(--fl-text-dim); text-transform: uppercase; letter-spacing: 1px; }
+.fl-pin-pips { display: flex; gap: 3px; }
+.fl-pin-pip {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--fl-border);
+}
+.fl-pip-filled { background: var(--fl-pin-full); border-color: #e05050; }
+.fl-pip-empty  { background: var(--fl-pin-empty); }
+
+.fl-pin-controls { display: flex; align-items: center; gap: 4px; }
+.fl-pin-controls button {
+  width: 18px; height: 18px;
+  background: var(--fl-bg-card);
+  border: 1px solid var(--fl-border);
+  color: var(--fl-text);
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+}
+.fl-pin-value { font-size: 11px; min-width: 28px; text-align: center; }
+.fl-pin-clear, .fl-upkeep-btn {
+  font-size: 9px;
+  padding: 1px 4px;
+  background: var(--fl-bg-card);
+  border: 1px solid var(--fl-border);
+  color: var(--fl-text-dim);
+  cursor: pointer;
+  width: 100%;
+}
+.fl-upkeep-btn { color: var(--fl-accent); }
+
+/* ── Tabs ───────────────────────────────────────────────────────────────── */
+.fl-tabs {
+  display: flex;
+  background: var(--fl-bg-card);
+  border-bottom: 1px solid var(--fl-border);
+}
+.fl-tab {
+  padding: 6px 12px;
+  cursor: pointer;
+  color: var(--fl-text-dim);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid transparent;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.fl-tab:hover { color: var(--fl-text); }
+.fl-tab.active { color: var(--fl-accent); border-bottom-color: var(--fl-accent); }
+
+/* ── Tab Content ────────────────────────────────────────────────────────── */
+.fl-tab-content {
+  display: none;
+  padding: 10px 12px;
+}
+.fl-tab-content.active { display: block; }
+
+/* ── Statline ───────────────────────────────────────────────────────────── */
+.fl-statline {
+  background: var(--fl-bg-card);
+  border: 1px solid var(--fl-border);
+  padding: 8px;
+  margin-bottom: 8px;
+}
+.fl-stat-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.fl-stat {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--fl-bg-panel);
+  border: 1px solid var(--fl-border);
+  padding: 3px 6px;
+}
+.fl-stat label {
+  font-size: 10px;
+  color: var(--fl-text-dim);
+  font-weight: bold;
+  text-transform: uppercase;
+  min-width: 14px;
+}
+.fl-stat input[type=number] {
+  width: 38px;
+  background: transparent;
+  border: none;
+  color: var(--fl-accent);
+  font-family: var(--fl-font);
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0;
+}
+.fl-stat-unit { color: var(--fl-text-dim); font-size: 10px; }
+.fl-stat-effective { color: var(--fl-orange); font-size: 10px; }
+
+.fl-stat-group { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.fl-stat-label { font-size: 10px; color: var(--fl-text-dim); font-weight: bold; text-transform: uppercase; min-width: 20px; }
+
+.fl-toughness-row { display: flex; align-items: center; gap: 4px; }
+.fl-arc-label { font-size: 9px; color: var(--fl-text-dim); }
+.fl-toughness-row input { width: 32px; background: var(--fl-bg-panel); border: 1px solid var(--fl-border); color: var(--fl-accent); font-family: var(--fl-font); font-size: 12px; text-align: center; padding: 2px; }
+
+.fl-command input { width: 32px; background: var(--fl-bg-panel); border: 1px solid var(--fl-border); color: var(--fl-accent); font-family: var(--fl-font); font-size: 13px; font-weight: bold; text-align: center; padding: 2px; }
+.fl-stat-note { font-size: 10px; color: var(--fl-text-dim); }
+
+.fl-pin-notice {
+  background: #3a1a1a;
+  border: 1px solid var(--fl-red);
+  color: #e08080;
+  padding: 4px 8px;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.fl-identity-fields { display: flex; gap: 8px; margin-top: 8px; }
+.fl-field { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.fl-field-narrow { flex: 0 0 80px; }
+.fl-field label { font-size: 10px; color: var(--fl-text-dim); text-transform: uppercase; }
+.fl-field input[type=text], .fl-field input[type=number], .fl-field select, .fl-field textarea {
+  background: var(--fl-bg-card);
+  border: 1px solid var(--fl-border);
+  color: var(--fl-text);
+  font-family: var(--fl-font);
+  font-size: 12px;
+  padding: 3px 5px;
+}
+
+.fl-special-rules h3 { font-size: 11px; color: var(--fl-text-dim); text-transform: uppercase; letter-spacing: 1px; margin: 8px 0 4px; border-bottom: 1px solid var(--fl-border); }
+.fl-rules-list { list-style: none; padding: 0; margin: 0; }
+.fl-rule-item { padding: 2px 4px; font-size: 11px; }
+
+/* ── Weapons Tab ────────────────────────────────────────────────────────── */
+.fl-weapon-card {
+  background: var(--fl-bg-card);
+  border: 1px solid var(--fl-border);
+  margin-bottom: 6px;
+  padding: 6px 8px;
+}
+.fl-weapon-card.fl-weapon-spent { opacity: 0.5; }
+
+.fl-weapon-header { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.fl-weapon-name { font-weight: bold; font-size: 12px; color: var(--fl-text); flex: 1; }
+.fl-weapon-mount { font-size: 10px; color: var(--fl-text-dim); background: var(--fl-bg-panel); padding: 1px 4px; border: 1px solid var(--fl-border); }
+.fl-weapon-actions { display: flex; gap: 3px; }
+
+.fl-btn-roll {
+  background: var(--fl-green);
+  color: #ffffff;
+  border: 1px solid #2a6a2a;
+  padding: 2px 7px;
+  cursor: pointer;
+  font-family: var(--fl-font);
+  font-size: 11px;
+  font-weight: bold;
+}
+.fl-btn-roll:disabled { background: #2a3a2a; color: var(--fl-text-dim); cursor: not-allowed; }
+.fl-btn-edit, .fl-btn-delete, .fl-btn-add {
+  background: var(--fl-bg-panel);
+  border: 1px solid var(--fl-border);
+  color: var(--fl-text-dim);
+  padding: 2px 5px;
+  cursor: pointer;
+  font-size: 11px;
+}
+.fl-btn-delete:hover { background: #3a1a1a; color: var(--fl-red); }
+
+.fl-weapon-statline { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 11px; }
+.fl-wstat { background: var(--fl-bg-panel); border: 1px solid var(--fl-border); padding: 1px 5px; color: var(--fl-text); }
+.fl-ammo { color: var(--fl-accent); }
+.fl-ammo-empty { color: var(--fl-red) !important; }
+.fl-ammo-btn { background: var(--fl-bg-panel); border: 1px solid var(--fl-border); color: var(--fl-text-dim); padding: 1px 4px; cursor: pointer; font-size: 11px; }
+
+.fl-shot-types { margin-top: 4px; padding-left: 8px; border-left: 2px solid var(--fl-border); }
+.fl-shot-type { display: flex; gap: 6px; align-items: center; font-size: 11px; padding: 1px 0; }
+.fl-shot-name { color: var(--fl-text-dim); font-style: italic; }
+.fl-shot-stat { background: var(--fl-bg-panel); border: 1px solid var(--fl-border); padding: 0px 4px; }
+.fl-shot-rules { color: var(--fl-text-dim); font-size: 10px; }
+
+.fl-weapon-rules { margin-top: 3px; font-size: 10px; color: var(--fl-text-dim); font-style: italic; }
+
+/* ── Tokens Tab ─────────────────────────────────────────────────────────── */
+.fl-token-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+.fl-token-section { flex: 1; min-width: 180px; }
+.fl-token-section h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--fl-text-dim); border-bottom: 1px solid var(--fl-border); margin-bottom: 6px; }
+.fl-toggle-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 11px; }
+.fl-toggle-row label { min-width: 120px; color: var(--fl-text-dim); }
+.fl-toggle-btn { padding: 2px 8px; border: 1px solid var(--fl-border); cursor: pointer; font-family: var(--fl-font); font-size: 11px; }
+.fl-toggle-on   { background: #1a4a1a; color: #80d080; border-color: #3a8a3a; }
+.fl-toggle-off  { background: var(--fl-bg-card); color: var(--fl-text-dim); }
+.fl-toggle-warn { background: #4a3a1a; color: #d0a040; border-color: #8a6020; }
+.fl-note { font-size: 10px; color: var(--fl-text-dim); font-style: italic; }
+
+.fl-ref-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 4px; }
+.fl-ref-table th { background: var(--fl-bg-card); color: var(--fl-text-dim); text-align: left; padding: 2px 5px; border: 1px solid var(--fl-border); font-weight: bold; }
+.fl-ref-table td { padding: 2px 5px; border: 1px solid var(--fl-border); }
+.fl-ref-note { font-size: 11px; color: var(--fl-text-dim); margin-top: 3px; }
+
+/* ── Chat Cards ─────────────────────────────────────────────────────────── */
+.firelock198x.chat-attack {
+  font-family: var(--fl-font);
+  font-size: 11px;
+  background: #1a1a10;
+  border: 1px solid #5a5a3a;
+  padding: 6px 8px;
+  color: #d4d0b0;
+}
+.fl-attack-header { font-size: 12px; margin-bottom: 4px; }
+.fl-attacker { color: #80c080; font-weight: bold; }
+.fl-weapon   { color: #c8a43a; font-weight: bold; }
+.fl-target   { color: #e08080; font-weight: bold; }
+.fl-arc      { color: #808080; font-size: 10px; }
+.fl-attack-stats { color: #a0a080; margin-bottom: 4px; font-size: 11px; }
+.fl-die-row  { margin: 2px 0; display: flex; align-items: center; gap: 8px; }
+.fl-die-hit  { font-weight: bold; }
+.fl-hit      { color: #80d080; }
+.fl-miss     { color: #808080; }
+.fl-die-kill { }
+.fl-kill     { color: #e04040; font-weight: bold; }
+.fl-survive  { color: #808080; }
+.fl-overkill { color: #ff4040; font-weight: bold; }
+.fl-attack-summary { margin-top: 6px; border-top: 1px solid #3a3a24; padding-top: 4px; }
+.fl-kill-result { color: #e06060; font-weight: bold; display: block; margin-top: 2px; }
+
+.firelock198x.chat-upkeep {
+  font-family: var(--fl-font);
+  font-size: 11px;
+  color: #a0c0a0;
+  padding: 4px 6px;
+  background: #101a10;
+  border: 1px solid #3a5a3a;
+}
+
+/* ── Empty states ───────────────────────────────────────────────────────── */
+.fl-empty { color: var(--fl-text-dim); font-style: italic; font-size: 11px; padding: 6px; }
+
+/* ── Weapon Form ────────────────────────────────────────────────────────── */
+.fl-weapon-form, .fl-special-rule-form { padding: 8px; }
+.fl-form-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.fl-hint { font-size: 9px; color: var(--fl-text-dim); font-style: italic; }
+.fl-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.fl-section-header h3 { font-size: 11px; color: var(--fl-text-dim); text-transform: uppercase; margin: 0; }
+.fl-shot-type-form { background: var(--fl-bg-card); border: 1px solid var(--fl-border); padding: 6px; margin-bottom: 4px; }
+
+.fl-item-header { display: flex; align-items: center; gap: 8px; padding: 8px; background: var(--fl-bg-panel); border-bottom: 1px solid var(--fl-border); margin-bottom: 8px; }
+.fl-item-header img { width: 40px; height: 40px; border: 1px solid var(--fl-border); }
+.fl-item-header input[type=text] { flex: 1; font-size: 14px; font-weight: bold; background: transparent; border: none; border-bottom: 1px solid var(--fl-border); color: var(--fl-accent); font-family: var(--fl-font); }
+.fl-item-type { font-size: 10px; color: var(--fl-text-dim); text-transform: uppercase; }
+
+/* ── Attack Dialog ──────────────────────────────────────────────────────── */
+.fl-attack-dialog .form-group { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.fl-attack-dialog label { min-width: 140px; font-size: 11px; }
+.fl-attack-dialog select, .fl-attack-dialog input { flex: 1; }
+
+/* ── Scrollbars ─────────────────────────────────────────────────────────── */
+.firelock198x ::-webkit-scrollbar { width: 6px; }
+.firelock198x ::-webkit-scrollbar-track { background: var(--fl-bg); }
+.firelock198x ::-webkit-scrollbar-thumb { background: var(--fl-border); border-radius: 3px; }

@@ -1,0 +1,31 @@
+{
+  "id": "firelock198x",
+  "title": "Firelock 198X",
+  "description": "Fantasy Warfare in the Nuclear Age. A tabletop wargame system for Foundry VTT.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "authors": [{ "name": "Your Name Here" }],
+  "esmodules": ["module/firelock198x.mjs"],
+  "styles": ["styles/firelock198x.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "documentTypes": {
+    "Actor": {
+      "unit": {},
+      "tacom": {}
+    },
+    "Item": {
+      "weapon": {},
+      "special-rule": {}
+    }
+  },
+  "flags": {}
+}

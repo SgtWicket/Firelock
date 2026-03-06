@@ -1,0 +1,133 @@
+{{!-- Weapon Form --}}
+<div class="fl-weapon-form">
+
+  <div class="fl-form-row">
+    <div class="fl-field">
+      <label>Mount Note</label>
+      <input type="text" name="system.mountNote" value="{{system.mountNote}}" placeholder="e.g. Turret, Door Gun">
+    </div>
+    <div class="fl-field fl-field-narrow">
+      <label>Auto-Hit (A++)</label>
+      <input type="checkbox" name="system.autoHit" {{#if system.autoHit}}checked{{/if}}>
+    </div>
+  </div>
+
+  <div class="fl-form-row">
+    <div class="fl-field">
+      <label>Target</label>
+      <select name="system.target">
+        {{#each targetChoices}}
+          <option value="{{this.value}}" {{#ifEq this.value ../system.target}}selected{{/ifEq}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="fl-field fl-field-narrow">
+      <label>Range (inches)</label>
+      <input type="number" name="system.range" value="{{system.range}}" min="0">
+    </div>
+  </div>
+
+  <div class="fl-form-row">
+    <div class="fl-field fl-field-narrow">
+      <label>Accuracy (Stat)</label>
+      <input type="number" name="system.accuracyStationary" value="{{system.accuracyStationary}}" min="1" max="8">
+      <span class="fl-hint">2=2+, 7=7+, 8=impossible</span>
+    </div>
+    <div class="fl-field fl-field-narrow">
+      <label>Accuracy (Move)</label>
+      <input type="number" name="system.accuracyMoving" value="{{system.accuracyMoving}}" min="1" max="8">
+    </div>
+  </div>
+
+  <div class="fl-form-row">
+    <div class="fl-field fl-field-narrow">
+      <label>Strength (Full)</label>
+      <input type="number" name="system.strengthNormal" value="{{system.strengthNormal}}" min="0" step="0.1">
+      <span class="fl-hint">Use 1.1 for S1+, 0.9 for S1−</span>
+    </div>
+    <div class="fl-field fl-field-narrow">
+      <label>Strength (Half Range)</label>
+      <input type="number" name="system.strengthHalf" value="{{system.strengthHalf}}" min="0" step="0.1">
+    </div>
+    <div class="fl-field fl-field-narrow">
+      <label>Dice (D)</label>
+      <input type="number" name="system.dice" value="{{system.dice}}" min="1">
+    </div>
+  </div>
+
+  <div class="fl-form-row">
+    <div class="fl-field fl-field-narrow">
+      <label>Ammo Max (0 = unlimited)</label>
+      <input type="number" name="system.ammoMax" value="{{system.ammoMax}}" min="0">
+    </div>
+    <div class="fl-field fl-field-narrow">
+      <label>Ammo Remaining</label>
+      <input type="number" name="system.ammoRemaining" value="{{system.ammoRemaining}}" min="0">
+    </div>
+  </div>
+
+  {{!-- Special Rules (comma-separated in a textarea for now) --}}
+  <div class="fl-form-row">
+    <div class="fl-field">
+      <label>Special Rules (one per line)</label>
+      <textarea name="system.specialRules" rows="3" placeholder="Turret&#10;No CC&#10;Guided Missile (2)">{{join system.specialRules "\n"}}</textarea>
+      <span class="fl-hint">These are display labels only in Phase 1. Full rule automation in later phases.</span>
+    </div>
+  </div>
+
+  {{!-- Shot Types --}}
+  <div class="fl-shot-types-section">
+    <div class="fl-section-header">
+      <h3>Shot Types</h3>
+      <button type="button" data-action="addShotType" class="fl-btn-add">+ Add Shot Type</button>
+    </div>
+    {{#if hasShotTypes}}
+      {{#each system.shotTypes}}
+        <div class="fl-shot-type-form" data-index="{{@index}}">
+          <div class="fl-form-row">
+            <div class="fl-field">
+              <label>Name</label>
+              <input type="text" name="system.shotTypes.{{@index}}.name" value="{{this.name}}">
+            </div>
+            <div class="fl-field">
+              <label>Target Override</label>
+              <input type="text" name="system.shotTypes.{{@index}}.target" value="{{this.target}}" placeholder="Leave blank to inherit">
+            </div>
+            <button type="button" data-action="deleteShotType" data-index="{{@index}}" class="fl-btn-delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+          <div class="fl-form-row">
+            <div class="fl-field fl-field-narrow">
+              <label>S (Normal)</label>
+              <input type="number" name="system.shotTypes.{{@index}}.strengthNormal" value="{{this.strengthNormal}}" step="0.1">
+            </div>
+            <div class="fl-field fl-field-narrow">
+              <label>S (Half)</label>
+              <input type="number" name="system.shotTypes.{{@index}}.strengthHalf" value="{{this.strengthHalf}}" step="0.1">
+            </div>
+            <div class="fl-field fl-field-narrow">
+              <label>Acc (Stat)</label>
+              <input type="number" name="system.shotTypes.{{@index}}.accuracyStationary" value="{{this.accuracyStationary}}" min="1" max="8">
+            </div>
+            <div class="fl-field fl-field-narrow">
+              <label>Acc (Mov)</label>
+              <input type="number" name="system.shotTypes.{{@index}}.accuracyMoving" value="{{this.accuracyMoving}}" min="1" max="8">
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    {{else}}
+      <p class="fl-empty">No shot types — weapon uses a single profile.</p>
+    {{/if}}
+  </div>
+
+  {{!-- Description --}}
+  <div class="fl-form-row">
+    <div class="fl-field">
+      <label>Description / Notes</label>
+      {{editor enrichedDescription target="system.description" button=true editable=editable}}
+    </div>
+  </div>
+
+</div>
