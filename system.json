@@ -39,5 +39,7 @@
       "special-rule": {}
     }
   },
-  "flags": {}
+  "flags": {},
+  "manifest": "https://raw.githubusercontent.com/SgtWicket/Firelock/refs/heads/main/system.json",
+  "download": "https://github.com/SgtWicket/Firelock/archive/refs/heads/main.zip"
 }
