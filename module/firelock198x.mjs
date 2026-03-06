@@ -27,21 +27,27 @@ Hooks.once("init", () => {
   });
 
   // ── Register Actor sheets ───────────────────────────────────────────────
-  Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
-  Actors.registerSheet("firelock198x", FirelockUnitSheet, {
+  // In V13 we use DocumentSheetConfig directly for AppV2 sheets.
+  // Unregister core sheets for our types, then register our own.
+  DocumentSheetConfig.unregisterSheet(Actor, "core", foundry.appv1.sheets.ActorSheet, {
+    types: ["unit", "tacom"]
+  });
+  DocumentSheetConfig.registerSheet(Actor, "firelock198x", FirelockUnitSheet, {
     types: ["unit", "tacom"],
     makeDefault: true,
     label: "Firelock 198X Unit Sheet"
   });
 
   // ── Register Item sheets ────────────────────────────────────────────────
-  Items.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
-  Items.registerSheet("firelock198x", FirelockWeaponSheet, {
+  DocumentSheetConfig.unregisterSheet(Item, "core", foundry.appv1.sheets.ItemSheet, {
+    types: ["weapon", "special-rule"]
+  });
+  DocumentSheetConfig.registerSheet(Item, "firelock198x", FirelockWeaponSheet, {
     types: ["weapon"],
     makeDefault: true,
     label: "Firelock 198X Weapon Sheet"
   });
-  Items.registerSheet("firelock198x", FirelockSpecialRuleSheet, {
+  DocumentSheetConfig.registerSheet(Item, "firelock198x", FirelockSpecialRuleSheet, {
     types: ["special-rule"],
     makeDefault: true,
     label: "Firelock 198X Special Rule Sheet"

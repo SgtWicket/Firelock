@@ -20,8 +20,9 @@ export class FirelockWeaponSheet extends HandlebarsApplicationMixin(ItemSheetV2)
   };
 
   static PARTS = {
-    header: { template: "systems/firelock198x/templates/item/weapon-header.hbs" },
-    form:   { template: "systems/firelock198x/templates/item/weapon-form.hbs" }
+    form: {
+      template: "systems/firelock198x/templates/item/weapon-shell.hbs"
+    }
   };
 
   async _prepareContext(options) {
@@ -75,7 +76,7 @@ export class FirelockSpecialRuleSheet extends HandlebarsApplicationMixin(ItemShe
   };
 
   static PARTS = {
-    form: { template: "systems/firelock198x/templates/item/special-rule-form.hbs" }
+    form: { template: "systems/firelock198x/templates/item/special-rule-shell.hbs" }
   };
 
   async _prepareContext(options) {

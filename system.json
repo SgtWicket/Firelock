@@ -7,14 +7,26 @@
     "minimum": "13",
     "verified": "13"
   },
-  "authors": [{ "name": "Your Name Here" }],
-  "esmodules": ["module/firelock198x.mjs"],
-  "styles": ["styles/firelock198x.css"],
+  "authors": [
+    {
+      "name": "Your Name Here",
+      "flags": {}
+    }
+  ],
+  "esmodules": [
+    "module/firelock198x.mjs"
+  ],
+  "styles": [
+    {
+      "src": "styles/firelock198x.css"
+    }
+  ],
   "languages": [
     {
       "lang": "en",
       "name": "English",
-      "path": "lang/en.json"
+      "path": "lang/en.json",
+      "flags": {}
     }
   ],
   "documentTypes": {
@@ -27,7 +39,5 @@
       "special-rule": {}
     }
   },
-  "flags": {},
-  "manifest": "https://raw.githubusercontent.com/SgtWicket/C--Users-Daniel-AppData-Local-FoundryVTT-Data-systems-firelock198x/refs/heads/main/system.json",
-  "download": "https://github.com/SgtWicket/C--Users-Daniel-AppData-Local-FoundryVTT-Data-systems-firelock198x/archive/refs/heads/main.zip"
+  "flags": {}
 }

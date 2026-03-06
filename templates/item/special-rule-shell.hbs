@@ -1,0 +1,32 @@
+{{!-- Special Rule Sheet Shell --}}
+<form class="firelock198x sheet item special-rule" autocomplete="off">
+
+  <div class="fl-item-header">
+    <img src="{{item.img}}" alt="{{item.name}}" data-edit="img">
+    <input type="text" name="name" value="{{item.name}}" placeholder="Rule Name">
+    <select name="system.ruleType">
+      <option value="unit"   {{#ifEq system.ruleType "unit"}}selected{{/ifEq}}>Unit Rule</option>
+      <option value="weapon" {{#ifEq system.ruleType "weapon"}}selected{{/ifEq}}>Weapon Rule</option>
+    </select>
+  </div>
+
+  <div class="fl-weapon-form">
+    <div class="fl-form-row">
+      <div class="fl-field fl-field-narrow">
+        <label>Parameter 1 (optional)</label>
+        <input type="text" name="system.param1" value="{{system.param1}}" placeholder="e.g. 2 or 4+">
+      </div>
+      <div class="fl-field fl-field-narrow">
+        <label>Parameter 2 (optional)</label>
+        <input type="text" name="system.param2" value="{{system.param2}}" placeholder="e.g. 12">
+      </div>
+    </div>
+    <div class="fl-form-row">
+      <div class="fl-field">
+        <label>Description</label>
+        {{editor enrichedDescription target="system.description" button=true editable=editable}}
+      </div>
+    </div>
+  </div>
+
+</form>

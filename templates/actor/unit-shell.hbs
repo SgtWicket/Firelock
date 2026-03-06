@@ -1,0 +1,296 @@
+{{!-- Unit Sheet Shell — single template containing all parts --}}
+<form class="firelock198x sheet actor unit" autocomplete="off">
+
+  {{!-- ═══ HEADER ════════════════════════════════════════════════════════════ --}}
+  <div class="fl-sheet-header">
+    <img class="fl-unit-img" src="{{actor.img}}" alt="{{actor.name}}" data-edit="img">
+    <div class="fl-unit-identity">
+      <input class="fl-unit-name" type="text" name="name" value="{{actor.name}}" placeholder="Unit Name">
+      <div class="fl-unit-meta">
+        <span class="fl-unit-class">{{unitClassLabel}}</span>
+        {{#if system.role}}<span class="fl-unit-role">— {{system.role}}</span>{{/if}}
+        <span class="fl-unit-points">{{system.points}} pts</span>
+      </div>
+      <div class="fl-unit-status-bar">
+        {{#if system.identified}}
+          <span class="fl-status-badge fl-identified">Identified</span>
+        {{else}}
+          <span class="fl-status-badge fl-blind">Blind</span>
+        {{/if}}
+        {{#if system.stationaryFireToken}}
+          <span class="fl-status-badge fl-stationary">Stationary Fire</span>
+        {{/if}}
+        {{#if system.depleted}}
+          <span class="fl-status-badge fl-depleted">Depleted</span>
+        {{/if}}
+        {{#if system.airborne}}
+          <span class="fl-status-badge fl-airborne">Airborne</span>
+        {{/if}}
+        {{#if system.goneToGround}}
+          <span class="fl-status-badge fl-gtg">Gone to Ground</span>
+        {{/if}}
+      </div>
+    </div>
+
+    {{!-- PIN TRACKER --}}
+    <div class="fl-pin-tracker">
+      <label class="fl-pin-label">PIN</label>
+      <div class="fl-pin-pips">
+        {{#each pinArray}}
+          <div class="fl-pin-pip {{#if this.filled}}fl-pip-filled{{else}}fl-pip-empty{{/if}}"></div>
+        {{/each}}
+      </div>
+      <div class="fl-pin-controls">
+        <button type="button" data-action="removePin" title="Remove 1 Pin">−</button>
+        <span class="fl-pin-value">{{system.pin}}/6</span>
+        <button type="button" data-action="addPin" title="Add 1 Pin">+</button>
+      </div>
+      <button type="button" data-action="clearPin" class="fl-pin-clear">Clear Pin</button>
+      <button type="button" data-action="upkeepRemovePin" class="fl-upkeep-btn">
+        Upkeep (−{{system.quality}} pin)
+      </button>
+    </div>
+  </div>
+
+  {{!-- ═══ TABS ════════════════════════════════════════════════════════════ --}}
+  <nav class="fl-tabs">
+    {{#each tabs}}
+      <a class="fl-tab {{this.cssClass}}" data-tab="{{this.id}}" data-group="primary">
+        <i class="{{this.icon}}"></i> {{this.label}}
+      </a>
+    {{/each}}
+  </nav>
+
+  {{!-- ═══ STATS TAB ═════════════════════════════════════════════════════ --}}
+  <section class="fl-tab-content {{#ifEq activeTab "stats"}}active{{/ifEq}}" data-tab="stats" data-group="primary">
+    <div class="fl-statline">
+      <div class="fl-stat-group">
+        <label class="fl-stat-label">Class</label>
+        <select name="system.unitClass">
+          {{#each unitClassOptions}}
+            <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="fl-stat-row">
+        <div class="fl-stat">
+          <label>H</label>
+          <input type="number" name="system.height" value="{{system.height}}" min="0" max="6">
+        </div>
+        <div class="fl-stat">
+          <label>S</label>
+          <input type="number" name="system.spottingDistance" value="{{system.spottingDistance}}" min="0">
+          <span class="fl-stat-unit">"</span>
+        </div>
+        <div class="fl-stat">
+          <label>M</label>
+          <input type="number" name="system.move" value="{{system.move}}" min="0">
+          <span class="fl-stat-unit">"</span>
+          {{#if (gt system.pin 0)}}
+            <span class="fl-stat-effective">({{effectiveMove}}")</span>
+          {{/if}}
+        </div>
+        <div class="fl-stat">
+          <label>Q</label>
+          <input type="number" name="system.quality" value="{{system.quality}}" min="1" max="6">
+        </div>
+      </div>
+
+      <div class="fl-stat-group fl-toughness">
+        <label class="fl-stat-label">T</label>
+        {{#if isPlane}}
+          <input type="number" name="system.toughness.front" value="{{system.toughness.front}}" min="1">
+          <span class="fl-toughness-note">(all arcs)</span>
+        {{else}}
+          <div class="fl-toughness-row">
+            <span class="fl-arc-label">Frt</span>
+            <input type="number" name="system.toughness.front" value="{{system.toughness.front}}" min="1">
+            <span class="fl-arc-label">Sid</span>
+            <input type="number" name="system.toughness.side"  value="{{system.toughness.side}}"  min="1">
+            <span class="fl-arc-label">Rr</span>
+            <input type="number" name="system.toughness.rear"  value="{{system.toughness.rear}}"  min="1">
+          </div>
+        {{/if}}
+      </div>
+
+      {{#if isAircraft}}
+      <div class="fl-stat-group">
+        <label class="fl-stat-label">E</label>
+        <input type="number" name="system.evasion" value="{{system.evasion}}" min="0" max="6">
+      </div>
+      {{/if}}
+
+      {{#if isTacom}}
+      <div class="fl-stat-group fl-command">
+        <label class="fl-stat-label">C</label>
+        <input type="number" name="system.command" value="{{system.command}}" min="1" max="10">
+        <span class="fl-stat-note">Brigade ({{system.brigadeUnits}}, {{system.brigadeRadius}}")</span>
+      </div>
+      {{/if}}
+    </div>
+
+    {{#if (gt system.pin 1)}}
+      <div class="fl-pin-notice">⚠ Accuracy Penalty: −{{pinAccuracyPenalty}} to all weapons</div>
+    {{/if}}
+
+    <div class="fl-identity-fields">
+      <div class="fl-field">
+        <label>Role / Subtype</label>
+        <input type="text" name="system.role" value="{{system.role}}" placeholder="e.g. MAIN BATTLE TANK">
+      </div>
+      <div class="fl-field fl-field-narrow">
+        <label>Points</label>
+        <input type="number" name="system.points" value="{{system.points}}" min="0">
+      </div>
+    </div>
+
+    <div class="fl-special-rules">
+      <h3>Special Rules</h3>
+      {{#if specialRules.length}}
+        <ul class="fl-rules-list">
+          {{#each specialRules}}
+            <li class="fl-rule-item">
+              <strong>{{this.name}}</strong>
+              {{#if this.system.param1}}({{this.system.param1}}{{#if this.system.param2}}, {{this.system.param2}}{{/if}}){{/if}}
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p class="fl-empty">No special rules. Drag rules from Items sidebar.</p>
+      {{/if}}
+    </div>
+  </section>
+
+  {{!-- ═══ WEAPONS TAB ════════════════════════════════════════════════════ --}}
+  <section class="fl-tab-content {{#ifEq activeTab "weapons"}}active{{/ifEq}}" data-tab="weapons" data-group="primary">
+    {{#if weapons.length}}
+      {{#each weapons}}
+      <div class="fl-weapon-card {{#if this.isOutOfAmmo}}fl-weapon-spent{{/if}}">
+        <div class="fl-weapon-header">
+          <span class="fl-weapon-name">{{this.name}}</span>
+          {{#if this.system.mountNote}}
+            <span class="fl-weapon-mount">{{this.system.mountNote}}</span>
+          {{/if}}
+          <div class="fl-weapon-actions">
+            <button type="button" class="fl-btn-roll" data-action="rollAttack" data-weapon-id="{{this.id}}"
+                    {{#if this.isOutOfAmmo}}disabled{{/if}}>
+              <i class="fa-solid fa-dice-d6"></i> Attack
+            </button>
+            <button type="button" class="fl-btn-edit" data-action="editWeapon" data-weapon-id="{{this.id}}">
+              <i class="fa-solid fa-pencil"></i>
+            </button>
+            <button type="button" class="fl-btn-delete" data-action="deleteWeapon" data-weapon-id="{{this.id}}">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+        <div class="fl-weapon-statline">
+          <span class="fl-wstat">{{this.targetLabel}}</span>
+          <span class="fl-wstat">R{{this.system.range}}"</span>
+          <span class="fl-wstat">A{{this.accuracyLabel}}</span>
+          <span class="fl-wstat">S{{this.strengthLabel}}</span>
+          <span class="fl-wstat">D{{this.system.dice}}</span>
+          {{#if this.hasAmmo}}
+            <span class="fl-wstat fl-ammo {{#if this.isOutOfAmmo}}fl-ammo-empty{{/if}}">
+              Ammo {{this.system.ammoRemaining}}/{{this.system.ammoMax}}
+            </span>
+            <button type="button" data-action="spendAmmo" data-weapon-id="{{this.id}}" class="fl-ammo-btn">−</button>
+            <button type="button" data-action="reloadAmmo" data-weapon-id="{{this.id}}" class="fl-ammo-btn">↺</button>
+          {{/if}}
+        </div>
+        {{#if this.hasShotTypes}}
+          <div class="fl-shot-types">
+            {{#each this.system.shotTypes}}
+              <div class="fl-shot-type">
+                <span class="fl-shot-name">→ {{this.name}}</span>
+                {{#if this.target}}<span class="fl-shot-stat">{{this.target}}</span>{{/if}}
+                <span class="fl-shot-stat">S{{this.strengthNormal}}/{{this.strengthHalf}}</span>
+              </div>
+            {{/each}}
+          </div>
+        {{/if}}
+        {{#if this.system.specialRules.length}}
+          <div class="fl-weapon-rules">
+            {{#each this.system.specialRules}}{{#unless @first}}, {{/unless}}{{this}}{{/each}}
+          </div>
+        {{/if}}
+      </div>
+      {{/each}}
+    {{else}}
+      <p class="fl-empty">No weapons. Drag weapon Items here, or create one from the Items sidebar.</p>
+    {{/if}}
+  </section>
+
+  {{!-- ═══ STATUS TAB ═════════════════════════════════════════════════════ --}}
+  <section class="fl-tab-content {{#ifEq activeTab "tokens"}}active{{/ifEq}}" data-tab="tokens" data-group="primary">
+    <div class="fl-token-grid">
+      <div class="fl-token-section">
+        <h3>Combat Status</h3>
+        <div class="fl-toggle-row">
+          <label>Identified</label>
+          <button type="button" data-action="toggleIdentified"
+                  class="fl-toggle-btn {{#if system.identified}}fl-toggle-on{{else}}fl-toggle-off{{/if}}">
+            {{#if system.identified}}✓ Identified{{else}}✗ Blind{{/if}}
+          </button>
+        </div>
+        <div class="fl-toggle-row">
+          <label>Stationary Fire</label>
+          <button type="button" data-action="toggleStationary"
+                  class="fl-toggle-btn {{#if system.stationaryFireToken}}fl-toggle-on{{else}}fl-toggle-off{{/if}}">
+            {{#if system.stationaryFireToken}}✓ Stationary{{else}}✗ None{{/if}}
+          </button>
+        </div>
+        {{#if isSquad}}
+        <div class="fl-toggle-row">
+          <label>Squad Depletion</label>
+          <button type="button" data-action="toggleDepleted"
+                  class="fl-toggle-btn {{#if system.depleted}}fl-toggle-warn{{else}}fl-toggle-off{{/if}}">
+            {{#if system.depleted}}⚠ Depleted (Team){{else}}Full Strength{{/if}}
+          </button>
+        </div>
+        {{/if}}
+        {{#if isInfantry}}
+        <div class="fl-toggle-row">
+          <label>Gone to Ground</label>
+          <button type="button" data-action="toggleGoneToGround"
+                  class="fl-toggle-btn {{#if system.goneToGround}}fl-toggle-on{{else}}fl-toggle-off{{/if}}">
+            {{#if system.goneToGround}}✓ Gone to Ground{{else}}Standing{{/if}}
+          </button>
+        </div>
+        {{/if}}
+        {{#if isHelicopter}}
+        <div class="fl-toggle-row">
+          <label>Airborne</label>
+          <button type="button" data-action="toggleAirborne"
+                  class="fl-toggle-btn {{#if system.airborne}}fl-toggle-on{{else}}fl-toggle-off{{/if}}">
+            {{#if system.airborne}}✈ Airborne{{else}}⬇ Landed{{/if}}
+          </button>
+        </div>
+        {{/if}}
+      </div>
+      <div class="fl-token-section">
+        <h3>Quick Reference</h3>
+        <table class="fl-ref-table">
+          <tr><th>Pin</th><th>Effect</th></tr>
+          {{#if isInfantry}}<tr><td>1+</td><td>−1" Move per token</td></tr>{{/if}}
+          <tr><td>2</td><td>−1 Accuracy</td></tr>
+          <tr><td>4</td><td>−2 Accuracy</td></tr>
+          <tr><td>6</td><td>Max Pin: no shared spotting</td></tr>
+        </table>
+        <div class="fl-ref-note">Current Accuracy Penalty: <strong>−{{pinAccuracyPenalty}}</strong></div>
+        {{#if isInfantry}}
+        <div class="fl-ref-note">Effective Move: <strong>{{effectiveMove}}"</strong></div>
+        {{/if}}
+      </div>
+    </div>
+  </section>
+
+  {{!-- ═══ NOTES TAB ══════════════════════════════════════════════════════ --}}
+  <section class="fl-tab-content {{#ifEq activeTab "notes"}}active{{/ifEq}}" data-tab="notes" data-group="primary">
+    <div class="fl-notes-content">
+      {{editor enrichedNotes target="system.notes" button=true editable=editable}}
+    </div>
+  </section>
+
+</form>

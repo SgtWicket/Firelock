@@ -40,25 +40,15 @@ export class FirelockUnitSheet extends HandlebarsApplicationMixin(ActorSheetV2) 
 
   /** @inheritDoc */
   static PARTS = {
-    header: { template: "systems/firelock198x/templates/actor/unit-header.hbs" },
-    tabs:   { template: "systems/firelock198x/templates/actor/unit-tabs.hbs" },
-    stats:  { template: "systems/firelock198x/templates/actor/unit-stats.hbs" },
-    weapons:{ template: "systems/firelock198x/templates/actor/unit-weapons.hbs" },
-    tokens: { template: "systems/firelock198x/templates/actor/unit-tokens.hbs" },
-    notes:  { template: "systems/firelock198x/templates/actor/unit-notes.hbs" }
+    form: {
+      template: "systems/firelock198x/templates/actor/unit-shell.hbs",
+      scrollable: [""]
+    }
   };
 
-  /** Tab configuration */
-  static TABS = {
-    primary: {
-      tabs: [
-        { id: "stats",   label: "Stats",   icon: "fa-solid fa-chart-bar" },
-        { id: "weapons", label: "Weapons", icon: "fa-solid fa-crosshairs" },
-        { id: "tokens",  label: "Status",  icon: "fa-solid fa-circle-dot" },
-        { id: "notes",   label: "Notes",   icon: "fa-solid fa-scroll" }
-      ],
-      initial: "stats"
-    }
+  /** Tab configuration — V13 format */
+  tabGroups = {
+    primary: "stats"
   };
 
   /** @inheritDoc */
@@ -67,21 +57,36 @@ export class FirelockUnitSheet extends HandlebarsApplicationMixin(ActorSheetV2) 
     const actor = this.document;
     const system = actor.system;
 
-    // ── Unit class label ───────────────────────────────────────────────────
     const { UNIT_CLASSES } = await import("../data/unit.mjs");
     const { WEAPON_TARGETS } = await import("../data/weapon.mjs");
+
+    // ── Tabs ───────────────────────────────────────────────────────────────
+    const tabs = {
+      stats:   { id: "stats",   label: "Stats",   icon: "fa-solid fa-chart-bar",  active: this.tabGroups.primary === "stats",   cssClass: "" },
+      weapons: { id: "weapons", label: "Weapons", icon: "fa-solid fa-crosshairs", active: this.tabGroups.primary === "weapons", cssClass: "" },
+      tokens:  { id: "tokens",  label: "Status",  icon: "fa-solid fa-circle-dot", active: this.tabGroups.primary === "tokens",  cssClass: "" },
+      notes:   { id: "notes",   label: "Notes",   icon: "fa-solid fa-scroll",     active: this.tabGroups.primary === "notes",   cssClass: "" }
+    };
+    // Set active tab cssClass
+    for (const [key, tab] of Object.entries(tabs)) {
+      tab.cssClass = tab.active ? "active" : "";
+    }
+
+    // ── Unit class select options ──────────────────────────────────────────
+    const unitClassOptions = Object.entries(UNIT_CLASSES).map(([value, label]) => ({
+      value, label, selected: value === system.unitClass
+    }));
 
     // ── Weapons ────────────────────────────────────────────────────────────
     const weapons = actor.items.filter(i => i.type === "weapon").map(w => {
       const ws = w.system;
       return {
-        ...w,
         id: w.id,
         name: w.name,
         system: ws,
         hasAmmo: ws.ammoMax > 0,
         isOutOfAmmo: ws.ammoMax > 0 && ws.ammoRemaining <= 0,
-        hasShotTypes: ws.shotTypes?.length > 0,
+        hasShotTypes: (ws.shotTypes?.length ?? 0) > 0,
         accuracyLabel: ws.autoHit ? "A++" : `${ws.accuracyStationary}+/${ws.accuracyMoving}+`,
         strengthLabel: `${ws.strengthNormal}/${ws.strengthHalf}`,
         targetLabel: WEAPON_TARGETS[ws.target] ?? ws.target
@@ -91,39 +96,38 @@ export class FirelockUnitSheet extends HandlebarsApplicationMixin(ActorSheetV2) 
     // ── Special rules ──────────────────────────────────────────────────────
     const specialRules = actor.items.filter(i => i.type === "special-rule");
 
-    // ── Pin indicators (array for template looping) ────────────────────────
+    // ── Pin indicators ─────────────────────────────────────────────────────
     const pinArray = Array.from({ length: 6 }, (_, i) => ({
       index: i + 1,
-      filled: i < system.pin
+      filled: i < (system.pin ?? 0)
     }));
 
     // ── Toughness display ──────────────────────────────────────────────────
     const t = system.toughness ?? {};
     const isPlane = system.isPlane ?? false;
-    const toughnessDisplay = isPlane
-      ? `${t.front}`
-      : `${t.front}/${t.side}/${t.rear}`;
+    const toughnessDisplay = isPlane ? `${t.front}` : `${t.front}/${t.side}/${t.rear}`;
 
     return {
       ...context,
       actor,
       system,
+      tabs,
+      activeTab: this.tabGroups.primary,
       isTacom: actor.type === "tacom",
       unitClassLabel: UNIT_CLASSES[system.unitClass] ?? system.unitClass,
+      unitClassOptions,
       toughnessDisplay,
       weapons,
       specialRules,
       pinArray,
       effectiveMove: system.effectiveMove ?? system.move,
       pinAccuracyPenalty: system.pinAccuracyPenalty ?? 0,
-      // Flags for conditional display
       isInfantry: system.isInfantry,
       isVehicle: system.isVehicle,
       isAircraft: system.isAircraft,
       isSquad: system.isSquad,
       isPlane: system.isPlane,
       isHelicopter: system.isHelicopter,
-      // Enriched notes
       enrichedNotes: await TextEditor.enrichHTML(system.notes ?? "", { relativeTo: actor })
     };
   }
